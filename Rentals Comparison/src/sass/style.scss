@@ -1,0 +1,311 @@
+@import '../partials/variables'; // colors, fonts etc...
+
+@import '../partials/mixins'; // custom mixins
+
+@import '../partials/layout'; // responsive grid and media queries
+
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font: {
+		size: 1.6rem;
+		family: $primary-font; // variables inside partials > _variables.scss
+	}
+	color: $color-1;
+	background-color: $color-3;
+}
+
+a {
+	color: $color-1;
+	text-decoration: none;
+	font-size:80%;
+}
+
+img, svg {
+	width: 100px;
+  	height: 70px;
+  	padding: .5em .5em .5em;
+}
+
+button {
+	@include appearance(none);
+	cursor: pointer;
+	border: none;
+	padding: 0;
+
+	&:focus {
+		outline: none;
+		cursor: hand;
+	}
+}
+
+header {
+	height: 80px;
+	position: relative;
+	padding-top: 40px;
+	@include MQ(M) {
+		height: 200px;
+    	padding-top: 100px;
+	}
+
+	h1 {
+		font-size: 150%;
+  		text-align: center;
+  		width: 90%;
+  		margin: 0 auto;
+  		@include MQ(M) {
+			font-size: 200%;
+		}
+	}
+}
+
+/* -------------------------------- 
+
+Cart button
+
+-------------------------------- */
+
+.cd-cart {
+	position: fixed;
+  	z-index: 3;
+  	bottom: 24px;
+  	right: 10px;
+  	height: 40px;
+  	width: 40px;
+  	background: url(../../src/img/cart.svg) no-repeat center center;
+    @include border-radius(50%);
+    background-color: blue;
+
+	/* scale it down if no products have been added to the cart */
+	@include transform(0);
+
+	span {
+		/* number of items added to the cart */
+		position: absolute;
+		bottom: 2px;
+		right: 5px;
+		height: 18px;
+		width: 18px;
+		line-height: 18px;
+		background-color: $color-5;
+		color: $color-4;
+		font-size: 1rem;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 50%;
+		
+		&.added-more {
+			animation-name: counterEnlarge;
+  			animation-duration: 1.5s;
+  			animation-timing-function: linear;
+		}
+	}
+
+	&.items-added {
+		animation-name: firstIn;
+  		animation-duration: 1.5s;
+  		animation-timing-function: ease-out;
+  		@include transform(1);
+	}
+
+	@include MQ(L) {
+		position: fixed;
+		top: 30px;
+		right: 30px;
+	}
+}
+
+@keyframes firstIn {
+    0%   {height: 0;width: 0;opacity: 0;}
+    30%  {height: 20px;width: 20px;opacity: 0.5;}
+    60%  {height: 48px;width: 48px;opacity: 1;}
+    100% {height: 40px;width: 40px;opacity: 1;}
+}
+@keyframes counterEnlarge {
+    0%   {height: 18px;width: 18px;font-size: 1rem;}
+    40%  {height: 30px;width: 30px;font-size: 2rem;top:-8px;right:-8px;line-height: 30px;}
+    70%  {height: 24px;width: 24px;font-size: 1.5rem;top:-5.5px;right:-5.5px;line-height: 24px;}
+    100%   {height: 18px;width: 18px;font-size: 1rem;}
+}
+
+/* -------------------------------- 
+
+Gallery grid
+
+-------------------------------- */
+
+.cd-gallery {
+	width: 90%;
+	max-width: $L;
+	margin: 1.5em auto;
+
+	> li {
+		margin-bottom: 2%;
+		&:hover {
+			box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+		}
+	}
+
+	@include MQ(M) {
+		margin-top: 2em;
+		&::after {
+		    clear: both;
+		    content: "";
+		    display: table;
+		}
+
+		> li {
+			@include column(.48);
+			margin: 0 2% 2% 0;
+
+			&:nth-of-type(2n) {
+				margin-right: 0;
+			}
+		}
+	}
+
+	@include MQ(L) {
+		margin-top: 2.5em;
+
+		> li {
+			@include column(.3);
+			margin: 0 5% 5% 0;
+
+			&:nth-of-type(2n) {
+				margin-right: 5%;
+			}
+
+			&:nth-of-type(3n) {
+				margin-right: 0;
+			}
+		}
+	}
+}
+
+/* -------------------------------- 
+
+Single Item
+
+-------------------------------- */
+
+.cd-single-item {
+	position: relative;
+	background-color: $color-4;
+  	border-radius: 4px;
+
+	* {
+		display: inline-block;
+  		vertical-align:middle;
+	}
+	img{
+		max-width: 120px;
+		max-height: 80px;
+	}
+}
+
+.add-to-cart {
+	background: url(../../src/img/cart2.svg) 29% 50% no-repeat ;
+	margin: 22px 10px 22px;
+	height: 34px;
+	width: 70px;
+	border-radius: 3px;
+	float:right;
+	vertical-align:middle;
+	position: relative;
+	overflow: hidden;
+	color: $color-5;
+	background-color: $color-4;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	stroke-dashoffset:0;
+
+	&.anim {
+	  	cursor: not-allowed;
+	}
+	&:hover {
+		background: url(../../src/img/cart.svg) 29% 50% no-repeat;
+		background-color: $color-5;
+	}
+
+	div {
+		top:0;
+		left:0;
+		z-index: 1;
+		position: absolute;
+		display: inline-block;
+		padding: 0;
+		width: 100%;
+		height: 0;
+		background: $color-5;
+		-webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
+		transition: height 1s;
+	}
+	&.anim div{
+	  	height: 100%;
+	}
+
+	img{
+		top:0;
+		left:0;
+		z-index: 2;
+		position: absolute;
+		display: inline-block;
+		padding: 0;
+		width: 0;
+		height: 100%;
+		-webkit-transition: width 0.5s; /* For Safari 3.1 to 6.0 */
+		transition: width 0.5s;
+		-webkit-transition-delay: 1s; /* Safari */
+		transition-delay: 1s;
+	}
+	&.anim img{
+	  	width: 100%;
+	}
+
+
+	span {
+		padding-left: 25px;
+		vertical-align:middle;
+		color: $color-5;
+	}
+	&:hover span{
+	  	color:white;
+	}
+}
+
+
+
+.cd-item-info {
+  	padding: 1em 0 1em;
+
+  	b {
+		padding: 10px 0 10px;
+		color: $color-1; 
+		a {
+			font-weight: bold;
+			&:hover {
+				text-decoration: underline;
+			}
+			@include MQ(M) {
+				font-size:100%;
+			}
+		} 
+  	}
+
+  	p{
+		padding: 10px 0 10px;
+		color: $color-1; 
+		display: block;
+		@include MQ(M) {
+			font-size:80%;
+		} 
+	}
+
+}

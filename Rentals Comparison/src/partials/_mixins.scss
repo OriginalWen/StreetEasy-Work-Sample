@@ -1,0 +1,30 @@
+// antialiasing mode font rendering
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin appearance($ap){
+  -webkit-appearance: $ap;
+  -moz-appearance: $ap;
+  -ms-appearance: $ap;
+  -o-appearance: $ap;
+  appearance: $ap;
+}
+
+@mixin transform($s){
+  -webkit-transform: scale($s);
+  -moz-transform: scale($s);
+  -ms-transform: scale($s);
+  -o-transform: scale($s);
+  transform: scale($s);
+}
+
+@mixin border-radius($r){
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+  -ms-border-radius: $r;
+  -o-border-radius: $r;
+  border-radius: $r;
+}
